@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonton Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4; /* Warna latar belakang halaman */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Memusatkan elemen secara horizontal */
+        }
+        h1 {
+            text-align: center; /* Memusatkan teks judul */
+            margin-bottom: 20px; /* Margin bawah untuk judul */
+        }
+        #videoContainer {
+            width: 100%;
+            max-width: 800px; /* Batas lebar maksimum */
+            height: auto;
+            background-color: #d3d3d3; /* Warna latar belakang abu-abu */
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px; /* Margin bawah */
+        }
+        iframe {
+            width: 100%;
+            height: 480px; /* Tinggi video */
+            border: none;
+        }
+        #myButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: blue;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #myButton.clicked-once {
+            background-color: green;
+        }
+    </style>
+    <script>
+        let clickCount = 0;
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        function loadVideo() {
+            const valueFromUrl = getUrlParameter('param');
+            const videoUrl = `https://drive.google.com/file/d/${valueFromUrl}/preview`;
+            const downloadUrl = `https://drive.google.com/uc?id=${valueFromUrl}`;
+
+            const videoContainer = document.getElementById('videoContainer');
+            const button = document.getElementById('myButton');
+            const title = document.getElementById('title');
+
+            if (clickCount === 0) {
+                videoContainer.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+                window.open('https://www.google.com', '_blank'); // Membuka google.com di tab baru
+                button.innerText = "Download Video";
+                button.onclick = function() {
+                    window.location.href = downloadUrl;
+                };
+                button.classList.add('clicked-once');
+                title.innerText = "Video dari Google Drive";
+            }
+
+            clickCount++;
+        }
+    </script>
+</head>
+<body>
+    <h1 id="title">Nonton Gratis dari Google Drive</h1>
+    <div id="videoContainer"></div>
+    <button id="myButton" onclick="loadVideo()">Tampilkan Video</button>
+</body>
+</html>
