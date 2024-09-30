@@ -9,8 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #121212; /* Warna latar belakang gelap */
-            color: #ffffff; /* Warna teks putih */
+            background-color: #121212;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -23,7 +23,7 @@
             width: 100%;
             max-width: 800px;
             height: auto;
-            background-color: #1e1e1e; /* Warna latar belakang abu-abu gelap */
+            background-color: #1e1e1e;
             padding: 10px;
             border-radius: 5px;
             text-align: center;
@@ -38,14 +38,14 @@
             padding: 10px 20px;
             font-size: 16px;
             color: white;
-            background-color: #6200ea; /* Warna tombol ungu */
+            background-color: #6200ea;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
         }
         #myButton.clicked-once {
-            background-color: #03dac5; /* Warna tombol hijau terang setelah diklik */
+            background-color: #03dac5;
         }
     </style>
     <script>
@@ -65,6 +65,13 @@
             const button = document.getElementById('myButton');
             const title = document.getElementById('title');
 
+            // Mapping file ID to title
+            const videoTitles = {
+                'your_file_id_1': 'Judul Video 1',
+                'your_file_id_2': 'Judul Video 2',
+                // Add more mappings as needed
+            };
+
             if (clickCount === 0) {
                 videoContainer.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
                 window.open('https://www.google.com', '_blank');
@@ -73,7 +80,7 @@
                     window.location.href = downloadUrl;
                 };
                 button.classList.add('clicked-once');
-                title.innerText = "Judul Video: " + valueFromUrl; // Ganti dengan judul yang sesuai
+                title.innerText = "Judul Video: " + (videoTitles[valueFromUrl] || 'Video Tidak Diketahui');
             }
 
             clickCount++;
