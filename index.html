@@ -9,42 +9,43 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4; /* Warna latar belakang halaman */
+            background-color: #121212; /* Warna latar belakang gelap */
+            color: #ffffff; /* Warna teks putih */
             display: flex;
             flex-direction: column;
-            align-items: center; /* Memusatkan elemen secara horizontal */
+            align-items: center;
         }
         h1 {
-            text-align: center; /* Memusatkan teks judul */
-            margin-bottom: 20px; /* Margin bawah untuk judul */
+            text-align: center;
+            margin-bottom: 20px;
         }
         #videoContainer {
             width: 100%;
-            max-width: 800px; /* Batas lebar maksimum */
+            max-width: 800px;
             height: auto;
-            background-color: #d3d3d3; /* Warna latar belakang abu-abu */
+            background-color: #1e1e1e; /* Warna latar belakang abu-abu gelap */
             padding: 10px;
             border-radius: 5px;
             text-align: center;
-            margin-bottom: 20px; /* Margin bawah */
+            margin-bottom: 20px;
         }
         iframe {
             width: 100%;
-            height: 480px; /* Tinggi video */
+            height: 480px;
             border: none;
         }
         #myButton {
             padding: 10px 20px;
             font-size: 16px;
             color: white;
-            background-color: blue;
+            background-color: #6200ea; /* Warna tombol ungu */
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
         }
         #myButton.clicked-once {
-            background-color: green;
+            background-color: #03dac5; /* Warna tombol hijau terang setelah diklik */
         }
     </style>
     <script>
@@ -66,13 +67,13 @@
 
             if (clickCount === 0) {
                 videoContainer.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
-                window.open('https://www.google.com', '_blank'); // Membuka google.com di tab baru
+                window.open('https://www.google.com', '_blank');
                 button.innerText = "Download Video";
                 button.onclick = function() {
                     window.location.href = downloadUrl;
                 };
                 button.classList.add('clicked-once');
-                title.innerText = "Video dari Google Drive";
+                title.innerText = "Judul Video: " + valueFromUrl; // Ganti dengan judul yang sesuai
             }
 
             clickCount++;
