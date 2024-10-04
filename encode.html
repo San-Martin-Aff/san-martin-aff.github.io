@@ -1,53 +1,99 @@
-let currentLink = '';
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder untuk Shopee Affiliate dan Google Drive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+            width: 300px;
+        }
+        button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        #encodedOutput {
+            margin-top: 20px;
+            word-break: break-all;
+        }
+        #copyButton, #reviewButton {
+            margin-top: 10px;
+            display: none; /* Awalnya sembunyikan */
+        }
+    </style>
+</head>
+<body>
+    <h1>Encoder URL</h1>
+    <input type="text" id="affiliateLink" placeholder="Masukkan Link Shopee Affiliate" />
+    <input type="text" id="driveLink" placeholder="Masukkan Link Google Drive" />
+    <button onclick="encodeUrl()">Encode URL</button>
+    <div id="encodedOutput"></div>
+    <button id="copyButton" onclick="copyLink()">Copy Link</button>
+    <button id="reviewButton" onclick="reviewLink()">Review Link</button>
+    <script>
+        let currentLink = '';
 
-function validateDriveLink(link) {
-    const regex = /^(https?:\/\/)?(www\.)?(drive\.google\.com)\/.*?\/d\/([^\/]+)/;
-    return regex.test(link);
-}
-
-function encodeUrl() {
-    const affiliateLink = document.getElementById('affiliateLink').value.trim();
-    const driveLink = document.getElementById('driveLink').value.trim();
-
-    // Validasi input kosong
-    if (!affiliateLink || !driveLink) {
-        alert('Silakan masukkan semua link!');
-        return;
-    }
-
-    // Validasi format link Google Drive
-    if (!validateDriveLink(driveLink)) {
-        alert('Silakan masukkan link Google Drive yang valid! Contoh: https://drive.google.com/file/d/ID_FILE/view');
-        return;
-    }
-
-    try {
-        const encodedAffiliateLink = encodeURIComponent(affiliateLink);
-        const driveId = new URL(driveLink).pathname.split('/')[3]; // Mengambil ID file dari link
-        
-        // Pastikan driveId ada
-        if (!driveId) {
-            throw new Error('ID file tidak ditemukan di link Google Drive.');
+        function isValidGoogleDriveLink(url) {
+            const regex = /^https?:\/\/drive\.google\.com\/.*$/; // Regex untuk memvalidasi link Google Drive
+            return regex.test(url);
         }
 
-        currentLink = `https://san-martin-aff.github.io?vid=${driveId}&aff=${encodedAffiliateLink}`;
-        
-        document.getElementById('encodedOutput').innerText = `Link Lengkap: ${currentLink}`;
-        document.getElementById('copyButton').style.display = 'inline-block';
-        document.getElementById('reviewButton').style.display = 'inline-block';
-    } catch (error) {
-        alert('Terjadi kesalahan: ' + error.message);
-    }
-}
+        function encodeUrl() {
+            const affiliateLink = document.getElementById('affiliateLink').value;
+            const driveLink = document.getElementById('driveLink').value;
 
-function copyLink() {
-    navigator.clipboard.writeText(currentLink).then(() => {
-        alert('Link telah disalin ke clipboard!');
-    }).catch(err => {
-        alert('Gagal menyalin link: ' + err);
-    });
-}
+            if (!affiliateLink || !driveLink) {
+                alert('Silakan masukkan semua link!');
+                return;
+            }
 
-function reviewLink() {
-    window.open(currentLink, '_blank'); // Buka link di tab baru
-}
+            if (!isValidGoogleDriveLink(driveLink)) {
+                alert('Silakan masukkan link Google Drive yang valid!');
+                return;
+            }
+
+            const encodedAffiliateLink = encodeURIComponent(affiliateLink);
+            const driveId = new URL(driveLink).pathname.split('/')[2]; // Mengambil ID video dari link
+            currentLink = `https://san-martin-aff.github.io?vid=${driveId}&aff=${encodedAffiliateLink}`;
+            
+            document.getElementById('encodedOutput').innerText = `Link Lengkap: ${currentLink}`;
+            document.getElementById('copyButton').style.display = 'inline-block'; // Tampilkan tombol copy
+            document.getElementById('reviewButton').style.display = 'inline-block'; // Tampilkan tombol review
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(currentLink).then(() => {
+                alert('Link telah disalin ke clipboard!');
+            }).catch(err => {
+                alert('Gagal menyalin link: ', err);
+            });
+        }
+
+        function reviewLink() {
+            window.open(currentLink, '_blank'); // Buka link di tab baru
+        }
+    </script>
+</body>
+</html>
