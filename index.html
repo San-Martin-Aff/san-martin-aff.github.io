@@ -18,16 +18,17 @@
             justify-content: center;
         }
         .logo {
-            width: 60vw; /* Ukuran logo responsif */
-            max-width: 600px; /* Maksimum ukuran logo */
+            width: 40vw; /* Ukuran logo diperkecil */
+            max-width: 300px; /* Maksimum ukuran logo diperkecil */
             height: auto; /* Tinggi otomatis untuk menjaga rasio */
             margin-bottom: 5px;
+            transition: width 0.3s; /* Animasi ukuran logo */
         }
         h1 {
             text-align: center;
             margin-bottom: 10px;
-            font-size: 24px; /* Ukuran font judul diperkecil */
-            color: #000; /* Warna hitam */
+            font-size: 24px;
+            color: #000;
         }
         #videoContainer {
             width: 100%;
@@ -35,7 +36,7 @@
             height: auto;
             background-color: #ffffff;
             padding: 10px;
-            border: 1px solid #ccc; /* Border lebih tipis berwarna abu-abu */
+            border: 1px solid #ccc;
             border-radius: 8px;
             margin: 20px 0;
             text-align: center;
@@ -52,7 +53,7 @@
             padding: 12px 24px;
             font-size: 16px;
             color: white;
-            background-color: #1a73e8; /* Warna biru Google */
+            background-color: #1a73e8;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -63,10 +64,10 @@
             transition: background-color 0.3s;
         }
         #myButton:hover {
-            background-color: #1669c1; /* Warna lebih gelap saat hover */
+            background-color: #1669c1;
         }
         #myButton.clicked-once {
-            background-color: #34a853; /* Warna hijau saat sudah diklik */
+            background-color: #34a853;
         }
         .description {
             margin-top: 15px;
@@ -108,6 +109,8 @@
             const videoContainer = document.getElementById('videoContainer');
             const button = document.getElementById('myButton');
             const title = document.getElementById('title');
+            const description = document.querySelector('.description');
+            const logo = document.querySelector('.logo');
 
             const videoTitles = {
                 'your_file_id_1': 'Judul Video 1',
@@ -129,6 +132,10 @@
                 button.classList.add('clicked-once');
                 button.disabled = true;
                 title.innerText = (videoTitles[valueFromUrl] || 'Selamat Menonton');
+                
+                // Sembunyikan deskripsi dan perkecil logo
+                description.style.display = 'none';
+                logo.style.width = '30vw'; // Ukuran logo saat video ditampilkan
             }
 
             clickCount++;
