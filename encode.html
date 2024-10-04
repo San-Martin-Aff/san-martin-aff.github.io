@@ -56,7 +56,7 @@
         let currentLink = '';
 
         function isValidGoogleDriveLink(url) {
-            const regex = /^https?:\/\/drive\.google\.com\/.*$/; // Regex untuk memvalidasi link Google Drive
+            const regex = /^(https?:\/\/drive\.google\.com\/(file|uc)\/.*)$/; // Regex untuk memvalidasi link Google Drive
             return regex.test(url);
         }
 
@@ -75,7 +75,20 @@
             }
 
             const encodedAffiliateLink = encodeURIComponent(affiliateLink);
-            const driveId = new URL(driveLink).pathname.split('/')[2]; // Mengambil ID video dari link
+            const url = new URL(driveLink);
+            let driveId;
+
+            if (url.pathname.includes('/file/d/')) {
+                driveId = url.pathname.split('/')[3]; // Mengambil ID dari link berbagi
+            } else if (url.searchParams.has('id')) {
+                driveId = url.searchParams.get('id'); // Mengambil ID dari link langsung
+            }
+
+            if (!driveId) {
+                alert('Gagal mengambil ID file dari link Google Drive!');
+                return;
+            }
+
             currentLink = `https://san-martin-aff.github.io?vid=${driveId}&aff=${encodedAffiliateLink}`;
             
             document.getElementById('encodedOutput').innerText = `Link Lengkap: ${currentLink}`;
